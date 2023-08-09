@@ -6,11 +6,11 @@ const bcryptjs = require("bcryptjs");
 // const Jimp = require("jimp");
 const { nanoid } = require("nanoid");
 
-const User = require("../models/user");
+const User = require("../models/User");
 
-const { HttpError, ctrlWrapper, sendEmail } = require("../helpers");
+const { HttpError, ctrlWrapper } = require("../helpers");
 
-const { SECRET_KEY, BASE_URL } = process.env;
+// const { SECRET_KEY, BASE_URL } = process.env;
 
 // const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 
@@ -19,7 +19,7 @@ const register = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user) {
-    throw new HttpError(409, "Email in use");
+    throw new HttpError(409);
   }
 
   const hashPassword = await bcryptjs.hash(password, 10);
@@ -29,22 +29,22 @@ const register = async (req, res) => {
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
-    avatarURL,
+    // avatarURL,
     verificationToken,
   });
 
-  const verifyEmail = {
-    to: email,
-    subject: "Verify email",
-    html: `<a target="_blank" href="${BASE_URL}/api/auth/users/verify/${verificationToken}">Click verify email</a>`,
-  };
+  // const verifyEmail = {
+  //   to: email,
+  //   subject: "Verify email",
+  //   html: `<a target="_blank" href="${BASE_URL}/api/auth/users/verify/${verificationToken}">Click verify email</a>`,
+  // };
 
-  await sendEmail(verifyEmail);
+  // await sendEmail(verifyEmail);
 
   res.status(201).json({
     user: {
       email: newUser.email,
-      subscription: newUser.subscription,
+      // subscription: newUser.subscription,
     },
   });
 };

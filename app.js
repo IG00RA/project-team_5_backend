@@ -1,7 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-const errorMessage = require("./constants");
+const httpMessage = require("./constants");
 require("dotenv").config();
 
 const authRouter = require("./routes/api/auth");
@@ -17,11 +17,11 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 
 app.use((req, res) => {
-  res.status(404).json({ message: errorMessage[404] });
+  res.status(404).json({ message: httpMessage[404] });
 });
 
 app.use((err, req, res, next) => {
-  const { status = 500, message = errorMessage[500] } = err;
+  const { status = 500, message = httpMessage[500] } = err;
   res.status(status).json({ message });
 });
 

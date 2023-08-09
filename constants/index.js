@@ -1,3 +1,3 @@
-const errorMessage = require("./httpMessages");
+const httpMessage = require("./httpMessages");
 
-module.exports = errorMessage;
+module.exports = httpMessage;
