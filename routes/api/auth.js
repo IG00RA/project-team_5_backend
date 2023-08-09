@@ -18,7 +18,7 @@ router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 //   ctrl.resendVerifyEmail
 // );
 
-// router.post("/users/login", validateBody(schemas.loginSchema), ctrl.login);
+router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
 
 // router.get("/users/current", authenticate, ctrl.getCurrent);
 
