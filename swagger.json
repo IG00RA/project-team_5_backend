@@ -1,0 +1,190 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "2.0.2",
+    "title": "GooseTrack API docs",
+    "description": "API documentation for project 'GooseTrack'. [Backend github repository](https://github.com/IG00RA/project-team_5_backend)",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [{ "url": "http://localhost:4000" }],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    }
+  ],
+
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User authentication",
+        "parameters": [],
+
+        "requestBody": {
+          "description": "Authentication's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {}
+          },
+          "401": {
+            "description": "Email or password invalid",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Artem"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Artem"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              }
+            }
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Authentication token",
+            "example": "eyJhbGciOiJIPzI1NiIsInR5cCI6IkpXVCJ2.eyJpZCI6IjY0ZDRiNjQ3NWNlN2E5N2M5YWI3MzJjYyIsImlhdCI6MTY5MTY4MzQzMStiZXhwIjoxNjkxNzY2MjMxfQ.fSfADazWYfA3KK0GAL5YUWjlThxhJ1irmvwp0YLkqXY"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

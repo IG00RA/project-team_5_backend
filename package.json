@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/IG00RA/project-team_5_backend",
   "dependencies": {
+    "swagger-ui-express": "^4.1.6",
+    "cross-env": "7.0.3",
     "bcryptjs": "^2.4.3",
     "cors": "2.8.5",
     "dotenv": "^16.3.1",
