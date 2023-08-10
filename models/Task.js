@@ -11,32 +11,32 @@ const tasksSchema = new Schema(
       required: true,
       maxlength: 250,
     },
-    // start: {
-    //   type: String,
-    //   required: true,
-    //   match: timeRegexp,
-    //   default: "9:00",
-    // },
-    // end: {
-    //   type: String,
-    //   required: true,
-    //   match: timeRegexp,
-    //   default: "9:00",
-    // },
-    // priority: {
-    //   type: String,
-    //   enum: ["low", "medium", "high"],
-    //   default: "low",
-    // },
-    // date: {
-    //   type: Date,
-    //   required: true,
-    // },
-    // category: {
-    //   type: String,
-    //   enum: ["to-do", "in-progress", "done"],
-    //   required: true,
-    // },
+    start: {
+      type: String,
+      required: true,
+      match: timeRegexp,
+      default: "09:00",
+    },
+    end: {
+      type: String,
+      required: true,
+      match: timeRegexp,
+      default: "09:30",
+    },
+    priority: {
+      type: String,
+      enum: ["low", "medium", "high"],
+      default: "low",
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+    category: {
+      type: String,
+      enum: ["to-do", "in-progress", "done"],
+      required: true,
+    },
     owner: {
       type: Schema.ObjectId,
       required: true,
@@ -50,11 +50,11 @@ tasksSchema.post("save", handleMongooseError);
 
 const addSchema = Joi.object({
   title: Joi.string().min(3).max(250).required(),
-  //   start: Joi.string().regex(timeRegexp).required(),
-  //   end: Joi.string().regex(timeRegexp).required(),
-  //   priority: Joi.string().valid("low", "medium", "high").required(),
-  //   date: Joi.date().required(),
-  //   category: Joi.string(),
+  start: Joi.string().regex(timeRegexp),
+  end: Joi.string().regex(timeRegexp),
+  priority: Joi.string().valid("low", "medium", "high"),
+  date: Joi.date().iso(),
+  category: Joi.string().required(),
 });
 
 const Task = model("task", tasksSchema);
