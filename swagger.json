@@ -49,11 +49,50 @@
             }
           },
           "400": {
-            "description": "Bad request (invalid request body)",
+            "description": "Invalid request body",
             "content": {}
           },
           "409": {
             "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User authentication",
+        "parameters": [],
+
+        "requestBody": {
+          "description": "Authentication's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {}
+          },
+          "401": {
+            "description": "Email or password invalid",
             "content": {}
           }
         }
@@ -94,6 +133,42 @@
                 "description": "User's name",
                 "example": "Artem"
               },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              }
+            }
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Authentication token",
+            "example": "eyJhbGciOiJIPzI1NiIsInR5cCI6IkpXVCJ2.eyJpZCI6IjY0ZDRiNjQ3NWNlN2E5N2M5YWI3MzJjYyIsImlhdCI6MTY5MTY4MzQzMStiZXhwIjoxNjkxNzY2MjMxfQ.fSfADazWYfA3KK0GAL5YUWjlThxhJ1irmvwp0YLkqXY"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
               "email": {
                 "type": "string",
                 "description": "User's email",
