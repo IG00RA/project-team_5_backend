@@ -1,12 +1,14 @@
 const httpMessage = require("../constants");
 
-const HttpError = (
-  statusCode = 500,
-  message = httpMessage[statusCode] || httpMessage.default
-) => {
-  const error = new Error(message);
-  error.statusCode = statusCode;
-  return error;
-};
+class HttpError extends Error {
+  constructor(status = 500, message = "") {
+    super(
+      message === "" || message === httpMessage[status]
+        ? httpMessage[status] || httpMessage.default
+        : message
+    );
+    this.status = status;
+  }
+}
 
 module.exports = HttpError;
