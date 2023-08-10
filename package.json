@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/IG00RA/project-team_5_backend/issues"
   },
-  "homepage": "https://github.com/IG00RA/project-team_5_backend#readme",
+  "homepage": "https://github.com/IG00RA/project-team_5_backend",
   "dependencies": {
     "cross-env": "7.0.3",
     "bcryptjs": "^2.4.3",
@@ -39,5 +39,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "5.2.0",
     "nodemon": "^2.0.22"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
