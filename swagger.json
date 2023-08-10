@@ -18,6 +18,7 @@
       "description": "Authorization endpoints"
     }
   ],
+
   "paths": {
     "/api/auth/register": {
       "post": {
@@ -64,8 +65,13 @@
     "schemas": {
       "RegistrationRequest": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": ["name", "email", "password"],
         "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Artem"
+          },
           "email": {
             "type": "string",
             "description": "User's email",
@@ -79,26 +85,24 @@
         }
       },
       "RegistrationResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "userId": {
-              "type": "number",
-              "description": "User's id",
-              "example": "32143232436545474"
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Artem"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              }
             }
           }
-        },
-        "example": [
-          { "email": "1@gmail.com", "userId": "1" },
-          { "email": "2@gmail.com", "userId": "2" }
-        ]
+        }
       }
     },
     "securitySchemes": {
