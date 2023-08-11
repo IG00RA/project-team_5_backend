@@ -7,6 +7,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 
 const authRouter = require("./routes/api/auth");
+const userRouter = require("./routes/api/user");
 const { tasksRouter } = require("./routes/api/tasks");
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRouter);
 app.use("/api/tasks", tasksRouter);
+app.use("/api/user", userRouter);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

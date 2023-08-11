@@ -11,11 +11,15 @@
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "https://project-team-5-backend.onrender.com" }],
+  "servers": [{ "url": "http://localhost:4000" }],
   "tags": [
     {
       "name": "Auth",
       "description": "Authorization endpoints"
+    },
+    {
+      "name": "User",
+      "description": "User endpoints"
     }
   ],
 
@@ -97,15 +101,89 @@
           }
         }
       }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logout",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/user/current": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user info",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No token provided",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/user/change-profile": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Change user info",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No token provided",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {}
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
       "RegistrationRequest": {
         "type": "object",
-        "required": ["name", "email", "password"],
+        "required": ["userName", "email", "password"],
         "properties": {
-          "name": {
+          "userName": {
             "type": "string",
             "description": "User's name",
             "example": "Artem"
@@ -128,7 +206,7 @@
           "user": {
             "type": "object",
             "properties": {
-              "name": {
+              "userName": {
                 "type": "string",
                 "description": "User's name",
                 "example": "Artem"
@@ -164,17 +242,75 @@
           "token": {
             "type": "string",
             "description": "Authentication token",
-            "example": "eyJhbGciOiJIPzI1NiIsInR5cCI6IkpXVCJ2.eyJpZCI6IjY0ZDRiNjQ3NWNlN2E5N2M5YWI3MzJjYyIsImlhdCI6MTY5MTY4MzQzMStiZXhwIjoxNjkxNzY2MjMxfQ.fSfADazWYfA3KK0GAL5YUWjlThxhJ1irmvwp0YLkqXY"
+            "example": "eyJhbGciOiJIUzI1N5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDRiNjQ3NWNlN2E5N2M5YWI3MzJjYyIsImlhdCI6MTY5MTY4MzQzMjoxNjkxNzY2MjMxfQ.fSfADazWYfA3KK0GAlThxhJ1irmvwp0YLkqXY"
           },
           "user": {
             "type": "object",
             "properties": {
+              "userName": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Artem"
+              },
               "email": {
                 "type": "string",
                 "description": "User's email",
                 "format": "email"
+              },
+              "phone": {
+                "type": "string",
+                "description": "User's phone",
+                "example": "38 (097) 256 34 77"
+              },
+              "birthday": {
+                "type": "string",
+                "description": "User's birthday",
+                "example": "25/08/1995"
+              },
+              "skype": {
+                "type": "string",
+                "description": "User's Skype",
+                "example": "Add a skype number (string)"
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "URL of the user's avatar"
               }
             }
+          }
+        }
+      },
+      "GetUserInfo": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Artem"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "38 (097) 256 34 77"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "25/08/1995"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's Skype",
+            "example": "Add a skype number (string)"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "URL of the user's avatar"
           }
         }
       }
