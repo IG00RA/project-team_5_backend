@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 // const path = require("path");
 // const fs = require("fs/promises");
 // const Jimp = require("jimp");
-const { nanoid } = require("nanoid");
+// const { nanoid } = require("nanoid");
 
 const User = require("../models/User");
 
@@ -19,18 +19,16 @@ const register = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user) {
-    throw new HttpError(409);
+    throw new HttpError(409, "Provided email already exists");
   }
 
   const hashPassword = await bcryptjs.hash(password, 10);
   // const avatarURL = gravatar.url(email);
-  const verificationToken = nanoid();
 
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
     // avatarURL,
-    verificationToken,
   });
 
   // const verifyEmail = {
@@ -43,8 +41,8 @@ const register = async (req, res) => {
 
   res.status(201).json({
     user: {
+      userName: newUser.userName,
       email: newUser.email,
-      // subscription: newUser.subscription,
     },
   });
 };
@@ -73,16 +71,27 @@ const login = async (req, res) => {
   res.json({
     token: token,
     user: {
+      userName: user.userName,
       email: user.email,
+      phone: user.phone,
+      birthday: user.birthday,
+      skype: user.skype,
+      avatarURL: user.avatarURL,
     },
   });
+};
+
+const logout = async (req, res) => {
+  const { _id } = req.user;
+  await User.findByIdAndUpdate(_id, { token: "" });
+
+  res.status(204).json();
 };
 
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
-  // getCurrent: ctrlWrapper(getCurrent),
-  // logout: ctrlWrapper(logout),
+  logout: ctrlWrapper(logout),
   // updateAvatar: ctrlWrapper(updateAvatar),
   // verifyEmail: ctrlWrapper(verifyEmail),
   // resendVerifyEmail: ctrlWrapper(resendVerifyEmail),

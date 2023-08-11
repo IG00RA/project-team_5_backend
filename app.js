@@ -3,7 +3,11 @@ const logger = require("morgan");
 const cors = require("cors");
 const httpMessage = require("./constants");
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
+
 const authRouter = require("./routes/api/auth");
+const userRouter = require("./routes/api/user");
 const { tasksRouter } = require("./routes/api/tasks");
 const { reviewsRouter } = require("./routes/api/reviews");
 
@@ -18,6 +22,9 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/tasks", tasksRouter);
 app.use("/api/reviews", reviewsRouter);
+app.use("/api/user", userRouter);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 app.use((req, res) => {
   res.status(404).json({ message: httpMessage[404] });

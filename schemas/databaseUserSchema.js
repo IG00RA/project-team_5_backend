@@ -4,6 +4,10 @@ const { handleMongooseError } = require("../helpers");
 
 const userSchema = new Schema(
   {
+    userName: {
+      type: String,
+      required: [true, "Name is required"],
+    },
     password: {
       type: String,
       required: [true, "Password is required"],
@@ -13,27 +17,37 @@ const userSchema = new Schema(
       required: [true, "Email is required"],
       unique: true,
     },
-    // subscription: {
-    //   type: String,
-    //   enum: ["starter", "pro", "business"],
-    //   default: "starter",
-    // },
     token: {
       type: String,
       default: null,
     },
-    // avatarURL: {
-    //   type: String,
-    //   required: true,
-    // },
-    verify: {
-      type: Boolean,
-      default: false,
-    },
-    verificationToken: {
+    phone: {
       type: String,
-      required: [true, "Verify token is required"],
+      unique: true,
+      default: "",
     },
+    skype: {
+      type: String,
+      unique: true,
+      default: "",
+    },
+    birthday: {
+      type: String,
+      default: "",
+    },
+    avatarURL: {
+      type: String,
+      // required: true,
+      default: "",
+    },
+    // verify: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // verificationToken: {
+    //   type: String,
+    //   required: [true, "Verify token is required"],
+    // },
   },
   { versionKey: false, timestamps: true }
 );
