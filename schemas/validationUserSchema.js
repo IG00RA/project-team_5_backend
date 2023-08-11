@@ -23,9 +23,9 @@ const loginSchema = Joi.object({
 const updateSchema = Joi.object({
   userName: Joi.string().required(),
   email: Joi.string().pattern(emailRegexp).required(),
-  phone: Joi.string().pattern(phoneRegexp),
+  phone: Joi.string(),
   skype: Joi.string(),
-  birthday: Joi.string().pattern(birthdayRegexp),
+  birthday: Joi.string(),
 });
 
 const schemas = {
