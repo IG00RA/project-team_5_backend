@@ -22,7 +22,7 @@ router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
 
 // router.get("/users/current", authenticate, ctrl.getCurrent);
 
-// router.post("/users/logout", authenticate, ctrl.logout);
+router.post("/logout", authenticate, ctrl.logout);
 
 // router.patch(
 //   "/avatars",
