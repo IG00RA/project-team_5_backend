@@ -16,6 +16,10 @@
     {
       "name": "Auth",
       "description": "Authorization endpoints"
+    },
+    {
+      "name": "User",
+      "description": "User endpoints"
     }
   ],
 
@@ -111,6 +115,62 @@
           },
           "401": {
             "description": "Unauthorized",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/user/current": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user info",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No token provided",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/user/change-profile": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Change user info",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No token provided",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
             "content": {}
           }
         }
@@ -217,6 +277,40 @@
                 "description": "URL of the user's avatar"
               }
             }
+          }
+        }
+      },
+      "GetUserInfo": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Artem"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "38 (097) 256 34 77"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "25/08/1995"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's Skype",
+            "example": "Add a skype number (string)"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "URL of the user's avatar"
           }
         }
       }

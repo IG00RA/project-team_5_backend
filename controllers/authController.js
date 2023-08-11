@@ -81,17 +81,6 @@ const login = async (req, res) => {
   });
 };
 
-const updateUserProfile = async (req, res) => {
-  const { email } = req.body;
-  const user = await User.findOne({ email });
-
-  if (user) {
-    throw new HttpError(409, "Provided email already exists");
-  }
-
-  console.log("fine");
-};
-
 const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: "" });
@@ -102,8 +91,6 @@ const logout = async (req, res) => {
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
-  // getCurrent: ctrlWrapper(getCurrent),
-  updateUserProfile: ctrlWrapper(updateUserProfile),
   logout: ctrlWrapper(logout),
   // updateAvatar: ctrlWrapper(updateAvatar),
   // verifyEmail: ctrlWrapper(verifyEmail),

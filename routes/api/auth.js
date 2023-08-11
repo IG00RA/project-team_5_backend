@@ -20,15 +20,6 @@ router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
 router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
 
-router.post(
-  "/user/user-profile",
-  authenticate,
-  validateBody(schemas.updateSchema),
-  ctrl.updateUserProfile
-);
-
-// router.get("/users/current", authenticate, ctrl.getCurrent);
-
 router.post("/logout", authenticate, ctrl.logout);
 
 // router.patch(
