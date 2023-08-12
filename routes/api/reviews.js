@@ -9,7 +9,7 @@ const {
   removeReview,
 } = require("../../controllers/reviewsControllers");
 
-const { validateBody, isValidId, authenticate } = require("../../middlewares");
+const { validateBody, authenticate } = require("../../middlewares");
 
 const { addReviewSchema } = require("../../models/Review");
 
@@ -19,15 +19,9 @@ router.get("/own", authenticate, getOwnReview);
 
 router.post("/own", authenticate, validateBody(addReviewSchema), createReview);
 
-router.patch(
-  "/own",
-  authenticate,
-  isValidId,
-  validateBody(addReviewSchema),
-  updateReview
-);
+router.patch("/own", authenticate, validateBody(addReviewSchema), updateReview);
 
-router.delete("/own", authenticate, isValidId, removeReview);
+router.delete("/own", authenticate, removeReview);
 
 module.exports = {
   reviewsRouter: router,
