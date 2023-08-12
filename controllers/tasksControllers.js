@@ -26,7 +26,6 @@ const updateTask = ctrlWrapper(async (req, res, next) => {
 
 const removeTask = ctrlWrapper(async (req, res, next) => {
   const { id } = req.params;
-  console.log(id);
   const removedTask = await Task.findByIdAndRemove(id);
   if (!removedTask) {
     throw new HttpError(404, "Task not found");
