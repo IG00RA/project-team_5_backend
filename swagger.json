@@ -11,7 +11,7 @@
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:4000" }],
+  "servers": [{ "url": "https://project-team-5-backend.onrender.com" }],
   "tags": [
     {
       "name": "Auth",
