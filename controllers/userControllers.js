@@ -1,3 +1,5 @@
+const User = require("../models/User");
+
 const { HttpError, ctrlWrapper } = require("../helpers");
 
 const getCurrentUser = async (req, res) => {
@@ -14,17 +16,39 @@ const getCurrentUser = async (req, res) => {
 };
 
 const updateUserProfile = async (req, res) => {
-  console.log("Позже продолжу");
+  const { userName, email, phone, skype, birthday, avatarURL } = req.body;
 
-  const { email } = req.body;
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ _id: req.user._id });
 
-  if (user) {
-    throw new HttpError(409, "Provided email already exists");
+  if (user.email !== email) {
+    const existingUserWithNewEmail = await User.findOne({ email });
+    if (existingUserWithNewEmail) {
+      return res
+        .status(409)
+        .json({ message: "Email already in use by another user" });
+    }
   }
 
-  res.json({
-    message: "Hi",
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: req.user._id },
+    {
+      userName,
+      email,
+      phone,
+      skype,
+      birthday,
+      avatarURL,
+    },
+    { new: true }
+  );
+
+  res.status(200).json({
+    userName: updatedUser.userName,
+    email: updatedUser.email,
+    phone: updatedUser.phone,
+    skype: updatedUser.skype,
+    birthday: updatedUser.birthday,
+    avatarURL: updatedUser.avatarURL,
   });
 };
 
