@@ -11,7 +11,7 @@
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:4000" }],
+  "servers": [{ "url": "https://project-team-5-backend.onrender.com" }],
   "tags": [
     {
       "name": "Auth",
@@ -153,6 +153,17 @@
         "tags": ["User"],
         "summary": "Change user info",
         "parameters": [],
+        "requestBody": {
+          "description": "User's change profile object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserInfoRequest"
+              }
+            }
+          }
+        },
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -160,17 +171,21 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserInfo"
+                  "$ref": "#/components/schemas/UpdateUserInfoResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "No token provided",
+            "description": "Invalid request body",
             "content": {}
           },
           "401": {
             "description": "Unauthorized (invalid access token)",
+            "content": {}
+          },
+          "409": {
+            "description": "Email already in use by another user",
             "content": {}
           }
         }
@@ -265,7 +280,7 @@
               "birthday": {
                 "type": "string",
                 "description": "User's birthday",
-                "example": "25/08/1995"
+                "example": "1995-08-12"
               },
               "skype": {
                 "type": "string",
@@ -301,7 +316,7 @@
           "birthday": {
             "type": "string",
             "description": "User's birthday",
-            "example": "25/08/1995"
+            "example": "1995-08-12"
           },
           "skype": {
             "type": "string",
@@ -311,6 +326,78 @@
           "avatarURL": {
             "type": "string",
             "description": "URL of the user's avatar"
+          }
+        }
+      },
+      "UpdateUserInfoRequest": {
+        "type": "object",
+        "required": ["userName", "email"],
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Artem"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "user@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "38 (097) 256 34 77"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "1995-08-12"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's Skype",
+            "example": "Add a skype number (string)"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "URL of the user's avatar",
+            "example": "string"
+          }
+        }
+      },
+      "UpdateUserInfoResponse": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "Updated user's name",
+            "example": "Artem"
+          },
+          "email": {
+            "type": "string",
+            "description": "Updated user's email",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Updated user's phone",
+            "example": "38 (097) 256 34 77"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Updated user's birthday",
+            "example": "1995-08-12"
+          },
+          "skype": {
+            "type": "string",
+            "description": "Updated user's Skype",
+            "example": "Add a skype number (string)"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "Updated URL of the user's avatar",
+            "example": "string"
           }
         }
       }
