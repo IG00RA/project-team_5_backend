@@ -23,9 +23,7 @@ const updateUserProfile = async (req, res) => {
   if (user.email !== email) {
     const existingUserWithNewEmail = await User.findOne({ email });
     if (existingUserWithNewEmail) {
-      return res
-        .status(409)
-        .json({ message: "Email already in use by another user" });
+      throw new HttpError(409, "Email already in use by another user");
     }
   }
 
