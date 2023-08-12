@@ -4,7 +4,7 @@ const { Review } = require("../models/Review");
 const getAllReview = ctrlWrapper(async (req, res, next) => {
   const reviews = await Review.find().populate({
     path: "owner",
-    select: "avatarURL",
+    select: "userName avatarURL",
   });
   res.status(200).json(reviews);
 });

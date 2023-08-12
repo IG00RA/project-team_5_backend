@@ -13,7 +13,6 @@ const reviewsSchema = new Schema(
       type: String,
       required: true,
     },
-
     owner: {
       type: Schema.ObjectId,
       required: true,
