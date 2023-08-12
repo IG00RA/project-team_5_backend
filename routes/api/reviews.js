@@ -7,7 +7,7 @@ const {
   createReview,
   updateReview,
   removeReview,
-} = require("../../controllers/reviewsController");
+} = require("../../controllers/reviewsControllers");
 
 const { validateBody, authenticate } = require("../../middlewares");
 
