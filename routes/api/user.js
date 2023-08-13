@@ -17,4 +17,11 @@ router.patch(
   ctrl.updateUserProfile
 );
 
+router.post(
+  "/change-avatar",
+  authenticate,
+  upload.single("avatar"),
+  ctrl.addAvatar
+);
+
 module.exports = router;
