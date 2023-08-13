@@ -50,10 +50,19 @@ const updateUserProfile = async (req, res) => {
   });
 };
 
+const addAvatar = async (req, res, next) => {
+  const { _id } = req.user;
+  const avatarURL = req.file.path;
+
+  await User.findByIdAndUpdate(_id, { avatarURL });
+
+  res.json({
+    avatarURL,
+  });
+};
+
 module.exports = {
   getCurrentUser: ctrlWrapper(getCurrentUser),
   updateUserProfile: ctrlWrapper(updateUserProfile),
-  // updateAvatar: ctrlWrapper(updateAvatar),
-  // verifyEmail: ctrlWrapper(verifyEmail),
-  // resendVerifyEmail: ctrlWrapper(resendVerifyEmail),
+  addAvatar: ctrlWrapper(addAvatar),
 };
