@@ -20,7 +20,7 @@ router.patch(
 router.post(
   "/change-avatar",
   authenticate,
-  upload.single("avatar"),
+  upload.single("avatarURL"),
   ctrl.addAvatar
 );
 
