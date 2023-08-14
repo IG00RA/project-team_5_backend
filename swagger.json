@@ -20,6 +20,14 @@
     {
       "name": "User",
       "description": "User endpoints"
+    },
+    {
+      "name": "Tasks",
+      "description": "Tasks endpoints"
+    },
+    {
+      "name": "Reviews",
+      "description": " endpoints"
     }
   ],
 
@@ -186,6 +194,165 @@
           },
           "409": {
             "description": "Email already in use by another user",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/tasks": {
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Get all tasks for current user",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Date parameter for filtering tasks"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTasksResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }
+        }
+      },
+      "post": {
+        "tags": ["Tasks"],
+        "summary": "Create task for current user",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "requestBody": {
+          "description": "Task's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostTasksResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/tasks/:id": {
+      "patch": {
+        "tags": ["Tasks"],
+        "summary": "Edit task",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "type": "string",
+            "required": true,
+            "description": "Task's id"
+          }
+        ],
+        "requestBody": {
+          "description": "Task's object. At least one field is required",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateTasksResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Task not found",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Tasks"],
+        "summary": "Remove task",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "type": "string",
+            "required": true,
+            "description": "Task's id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveTasksResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Task not found",
             "content": {}
           }
         }
@@ -400,13 +567,278 @@
             "example": "string"
           }
         }
-      }
-    },
-    "securitySchemes": {
-      "Bearer": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+      },
+
+      "GetTasksResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Task's id",
+            "example": "64d7b986cb30bc76c0d0e477"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task's name",
+            "format": "Get the first job offer"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task's start time",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task's end time",
+            "example": "11:30"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task's priority",
+            "enum": ["low", "medium", "high"],
+            "example": "high"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Task's scheduled date"
+          },
+          "category": {
+            "type": "string",
+            "description": "Task's category",
+            "enum": ["to-do", "in-progress", "done"],
+            "example": "in-progress"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Current user's id",
+            "example": "64d7358d009ad69107a3d3d5"
+          }
+        }
+      },
+      "PostTaskRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task's name",
+            "format": "Get the first job offer"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task's start time",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task's end time",
+            "example": "11:30"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task's priority",
+            "enum": ["low", "medium", "high"],
+            "example": "high"
+          },
+          "date": {
+            "type": "date",
+            "description": "Task's scheduled date",
+            "example": "2023-09-10"
+          },
+          "category": {
+            "type": "string",
+            "description": "Task's category",
+            "enum": ["to-do", "in-progress", "done"],
+            "example": "in-progress"
+          }
+        },
+        "required": ["title", "date", "category"]
+      },
+      "PostTasksResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Task's id",
+            "example": "64d7b986cb30bc76c0d0e477"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task's name",
+            "format": "Get the first job offer"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task's start time",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task's end time",
+            "example": "11:30"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task's priority",
+            "enum": ["low", "medium", "high"],
+            "example": "high"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Task's scheduled date"
+          },
+          "category": {
+            "type": "string",
+            "description": "Task's category",
+            "enum": ["to-do", "in-progress", "done"],
+            "example": "in-progress"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Current user's id",
+            "example": "64d7358d009ad69107a3d3d5"
+          }
+        }
+      },
+      "UpdateTaskRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task's name",
+            "format": "Get the first job offer"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task's start time",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task's end time",
+            "example": "11:30"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task's priority",
+            "enum": ["low", "medium", "high"],
+            "example": "high"
+          },
+          "date": {
+            "type": "date",
+            "description": "Task's scheduled date",
+            "example": "2023-09-10"
+          },
+          "category": {
+            "type": "string",
+            "description": "Task's category",
+            "enum": ["to-do", "in-progress", "done"],
+            "example": "in-progress"
+          }
+        }
+      },
+      "UpdateTasksResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Task's id",
+            "example": "64d7b986cb30bc76c0d0e477"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task's name",
+            "format": "Get the first job offer"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task's start time",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task's end time",
+            "example": "11:30"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task's priority",
+            "enum": ["low", "medium", "high"],
+            "example": "high"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Task's scheduled date"
+          },
+          "category": {
+            "type": "string",
+            "description": "Task's category",
+            "enum": ["to-do", "in-progress", "done"],
+            "example": "in-progress"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Current user's id",
+            "example": "64d7358d009ad69107a3d3d5"
+          }
+        }
+      },
+      "RemoveTasksResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Task's id",
+            "example": "64d7b986cb30bc76c0d0e477"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task's name",
+            "format": "Get the first job offer"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task's start time",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task's end time",
+            "example": "11:30"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task's priority",
+            "enum": ["low", "medium", "high"],
+            "example": "high"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Task's scheduled date"
+          },
+          "category": {
+            "type": "string",
+            "description": "Task's category",
+            "enum": ["to-do", "in-progress", "done"],
+            "example": "in-progress"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Current user's id",
+            "example": "64d7358d009ad69107a3d3d5"
+          }
+        }
+      },
+
+      "securitySchemes": {
+        "Bearer": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
       }
     }
   }
