@@ -21,6 +21,7 @@ const updateSchema = Joi.object({
   phone: Joi.string(),
   skype: Joi.string(),
   birthday: Joi.string().pattern(birthdayRegexp),
+  avatarURL: Joi.any(),
 });
 
 const schemas = {

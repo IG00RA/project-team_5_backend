@@ -13,15 +13,9 @@ router.get("/current", authenticate, ctrl.getCurrentUser);
 router.patch(
   "/change-profile",
   authenticate,
+  upload.single("avatarURL"),
   validateBody(schemas.updateSchema),
   ctrl.updateUserProfile
-);
-
-router.post(
-  "/change-avatar",
-  authenticate,
-  upload.single("avatarURL"),
-  ctrl.addAvatar
 );
 
 router.patch("/toggle-theme", authenticate, ctrl.toggleTheme);
