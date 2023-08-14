@@ -18,7 +18,13 @@ const getCurrentUser = async (req, res) => {
 };
 
 const updateUserProfile = async (req, res) => {
-  const { userName, email, phone, skype, birthday, avatarURL } = req.body;
+  const { userName, email, phone, skype, birthday } = req.body;
+
+  let avatarURL;
+
+  if (req.file) {
+    avatarURL = req.file.path;
+  }
 
   const user = await User.findOne({ _id: req.user._id });
 
@@ -52,17 +58,6 @@ const updateUserProfile = async (req, res) => {
   });
 };
 
-const addAvatar = async (req, res, next) => {
-  const { _id } = req.user;
-  const avatarURL = req.file.path;
-
-  await User.findByIdAndUpdate(_id, { avatarURL });
-
-  res.json({
-    avatarURL,
-  });
-};
-
 const toggleTheme = async (req, res, next) => {
   const { _id } = req.user;
 
@@ -81,6 +76,5 @@ const toggleTheme = async (req, res, next) => {
 module.exports = {
   getCurrentUser: ctrlWrapper(getCurrentUser),
   updateUserProfile: ctrlWrapper(updateUserProfile),
-  addAvatar: ctrlWrapper(addAvatar),
   toggleTheme: ctrlWrapper(toggleTheme),
 };
