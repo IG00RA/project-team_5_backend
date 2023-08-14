@@ -3,7 +3,8 @@ const User = require("../models/User");
 const { HttpError, ctrlWrapper } = require("../helpers");
 
 const getCurrentUser = async (req, res) => {
-  const { email, userName, avatarURL, phone, birthday, skype } = req.user;
+  const { email, userName, avatarURL, phone, birthday, skype, theme } =
+    req.user;
 
   res.json({
     email,
@@ -12,6 +13,7 @@ const getCurrentUser = async (req, res) => {
     phone,
     birthday,
     skype,
+    theme,
   });
 };
 
@@ -61,8 +63,24 @@ const addAvatar = async (req, res, next) => {
   });
 };
 
+const toggleTheme = async (req, res, next) => {
+  const { _id } = req.user;
+
+  const user = await User.findById(_id);
+  const currentTheme = user.theme;
+
+  const newTheme = currentTheme === "light" ? "dark" : "light";
+
+  await User.findByIdAndUpdate(_id, { theme: newTheme });
+
+  res.json({
+    theme: newTheme,
+  });
+};
+
 module.exports = {
   getCurrentUser: ctrlWrapper(getCurrentUser),
   updateUserProfile: ctrlWrapper(updateUserProfile),
   addAvatar: ctrlWrapper(addAvatar),
+  toggleTheme: ctrlWrapper(toggleTheme),
 };

@@ -137,10 +137,6 @@
               }
             }
           },
-          "400": {
-            "description": "No token provided",
-            "content": {}
-          },
           "401": {
             "description": "Unauthorized (invalid access token)",
             "content": {}
@@ -239,6 +235,30 @@
           },
           "500": {
             "description": "Unexpected file format",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/user/toggle-theme": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Toggle user theme",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToggleUserTheme"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
             "content": {}
           }
         }
@@ -441,6 +461,16 @@
             "type": "string",
             "description": "Updated user's Skype",
             "example": "Add a skype number (string)"
+          }
+        }
+      },
+      "ToggleUserTheme": {
+        "type": "object",
+        "properties": {
+          "theme": {
+            "type": "string",
+            "description": "User's theme",
+            "example": "light/dark"
           }
         }
       }

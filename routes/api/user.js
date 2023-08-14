@@ -24,4 +24,6 @@ router.post(
   ctrl.addAvatar
 );
 
+router.patch("/toggle-theme", authenticate, ctrl.toggleTheme);
+
 module.exports = router;

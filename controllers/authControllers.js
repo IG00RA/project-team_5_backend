@@ -1,18 +1,11 @@
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const gravatar = require("gravatar");
-// const path = require("path");
-// const fs = require("fs/promises");
-// const Jimp = require("jimp");
-// const { nanoid } = require("nanoid");
 
 const User = require("../models/User");
 
 const { HttpError, ctrlWrapper } = require("../helpers");
 
-const { SECRET_KEY, BASE_URL } = process.env;
-
-// const avatarsDir = path.join(__dirname, "../", "public", "avatars");
+const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -23,21 +16,11 @@ const register = async (req, res) => {
   }
 
   const hashPassword = await bcryptjs.hash(password, 10);
-  // const avatarURL = gravatar.url(email);
 
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
-    // avatarURL,
   });
-
-  // const verifyEmail = {
-  //   to: email,
-  //   subject: "Verify email",
-  //   html: `<a target="_blank" href="${BASE_URL}/api/auth/users/verify/${verificationToken}">Click verify email</a>`,
-  // };
-
-  // await sendEmail(verifyEmail);
 
   res.status(201).json({
     user: {
@@ -53,9 +36,7 @@ const login = async (req, res) => {
   if (!user) {
     throw new HttpError(401, "Email or password invalid");
   }
-  // if (!user.verify) {
-  //   throw new HttpError(401, "Email not verified");
-  // }
+
   const passwordCompare = await bcryptjs.compare(password, user.password);
   if (!passwordCompare) {
     throw new HttpError(401, "Email or password invalid");
@@ -77,6 +58,7 @@ const login = async (req, res) => {
       birthday: user.birthday,
       skype: user.skype,
       avatarURL: user.avatarURL,
+      theme: user.theme,
     },
   });
 };
@@ -92,7 +74,4 @@ module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   logout: ctrlWrapper(logout),
-  // updateAvatar: ctrlWrapper(updateAvatar),
-  // verifyEmail: ctrlWrapper(verifyEmail),
-  // resendVerifyEmail: ctrlWrapper(resendVerifyEmail),
 };
