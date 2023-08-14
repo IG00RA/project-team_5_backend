@@ -220,7 +220,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetTasksResponse"
+                  "$ref": "#/components/schemas/GetTaskResponse"
                 }
               }
             }
@@ -242,7 +242,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PostTaskRequest"
+                "$ref": "#/components/schemas/TaskRequest"
               }
             }
           }
@@ -253,7 +253,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PostTasksResponse"
+                  "$ref": "#/components/schemas/TaskResponse"
                 }
               }
             }
@@ -277,7 +277,7 @@
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
             "type": "string",
             "required": true,
             "description": "Task's id"
@@ -289,7 +289,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateTaskRequest"
+                "$ref": "#/components/schemas/TaskRequest"
               }
             }
           }
@@ -300,7 +300,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateTasksResponse"
+                  "$ref": "#/components/schemas/TaskResponse"
                 }
               }
             }
@@ -338,7 +338,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RemoveTasksResponse"
+                  "$ref": "#/components/schemas/TaskResponse"
                 }
               }
             }
@@ -353,6 +353,161 @@
           },
           "404": {
             "description": "Task not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/reviews": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get all reviews",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllReviewsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/reviews/own": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get own review for current user",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnReviewResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Review not found",
+            "content": {}
+          }
+        }
+      },
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Create review for current user",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "requestBody": {
+          "description": "Review's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostçOwnReviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnReviewResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "409": {
+            "description": "You have already submitted a review",
+            "content": {}
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Reviews"],
+        "summary": "Update review for current user. At least one field is required",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "requestBody": {
+          "description": "Review's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OwnReviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnReviewResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Review not found",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Reviews"],
+        "summary": "Delete review for current user.",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnReviewResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Review not found",
             "content": {}
           }
         }
@@ -569,7 +724,7 @@
         }
       },
 
-      "GetTasksResponse": {
+      "TaskResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -580,7 +735,7 @@
           "title": {
             "type": "string",
             "description": "Task's name",
-            "format": "Get the first job offer"
+            "example": "Get the first job offer"
           },
           "start": {
             "type": "string",
@@ -600,8 +755,8 @@
           },
           "date": {
             "type": "string",
-            "format": "date",
-            "description": "Task's scheduled date"
+            "description": "Task's scheduled date",
+            "example": "2023-10-10"
           },
           "category": {
             "type": "string",
@@ -616,13 +771,19 @@
           }
         }
       },
-      "PostTaskRequest": {
+      "GetTaskResponse": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/TaskResponse"
+        }
+      },
+      "TaskRequest": {
         "type": "object",
         "properties": {
           "title": {
             "type": "string",
             "description": "Task's name",
-            "format": "Get the first job offer"
+            "example": "Get the first job offer"
           },
           "start": {
             "type": "string",
@@ -641,9 +802,9 @@
             "example": "high"
           },
           "date": {
-            "type": "date",
+            "type": "string",
             "description": "Task's scheduled date",
-            "example": "2023-09-10"
+            "example": "2023-10-10"
           },
           "category": {
             "type": "string",
@@ -654,191 +815,111 @@
         },
         "required": ["title", "date", "category"]
       },
-      "PostTasksResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Task's id",
-            "example": "64d7b986cb30bc76c0d0e477"
-          },
-          "title": {
-            "type": "string",
-            "description": "Task's name",
-            "format": "Get the first job offer"
-          },
-          "start": {
-            "type": "string",
-            "description": "Task's start time",
-            "example": "09:00"
-          },
-          "end": {
-            "type": "string",
-            "description": "Task's end time",
-            "example": "11:30"
-          },
-          "priority": {
-            "type": "string",
-            "description": "Task's priority",
-            "enum": ["low", "medium", "high"],
-            "example": "high"
-          },
-          "date": {
-            "type": "string",
-            "format": "date",
-            "description": "Task's scheduled date"
-          },
-          "category": {
-            "type": "string",
-            "description": "Task's category",
-            "enum": ["to-do", "in-progress", "done"],
-            "example": "in-progress"
-          },
-          "owner": {
-            "type": "string",
-            "description": "Current user's id",
-            "example": "64d7358d009ad69107a3d3d5"
-          }
-        }
-      },
-      "UpdateTaskRequest": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string",
-            "description": "Task's name",
-            "format": "Get the first job offer"
-          },
-          "start": {
-            "type": "string",
-            "description": "Task's start time",
-            "example": "09:00"
-          },
-          "end": {
-            "type": "string",
-            "description": "Task's end time",
-            "example": "11:30"
-          },
-          "priority": {
-            "type": "string",
-            "description": "Task's priority",
-            "enum": ["low", "medium", "high"],
-            "example": "high"
-          },
-          "date": {
-            "type": "date",
-            "description": "Task's scheduled date",
-            "example": "2023-09-10"
-          },
-          "category": {
-            "type": "string",
-            "description": "Task's category",
-            "enum": ["to-do", "in-progress", "done"],
-            "example": "in-progress"
-          }
-        }
-      },
-      "UpdateTasksResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Task's id",
-            "example": "64d7b986cb30bc76c0d0e477"
-          },
-          "title": {
-            "type": "string",
-            "description": "Task's name",
-            "format": "Get the first job offer"
-          },
-          "start": {
-            "type": "string",
-            "description": "Task's start time",
-            "example": "09:00"
-          },
-          "end": {
-            "type": "string",
-            "description": "Task's end time",
-            "example": "11:30"
-          },
-          "priority": {
-            "type": "string",
-            "description": "Task's priority",
-            "enum": ["low", "medium", "high"],
-            "example": "high"
-          },
-          "date": {
-            "type": "string",
-            "format": "date",
-            "description": "Task's scheduled date"
-          },
-          "category": {
-            "type": "string",
-            "description": "Task's category",
-            "enum": ["to-do", "in-progress", "done"],
-            "example": "in-progress"
-          },
-          "owner": {
-            "type": "string",
-            "description": "Current user's id",
-            "example": "64d7358d009ad69107a3d3d5"
-          }
-        }
-      },
-      "RemoveTasksResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Task's id",
-            "example": "64d7b986cb30bc76c0d0e477"
-          },
-          "title": {
-            "type": "string",
-            "description": "Task's name",
-            "format": "Get the first job offer"
-          },
-          "start": {
-            "type": "string",
-            "description": "Task's start time",
-            "example": "09:00"
-          },
-          "end": {
-            "type": "string",
-            "description": "Task's end time",
-            "example": "11:30"
-          },
-          "priority": {
-            "type": "string",
-            "description": "Task's priority",
-            "enum": ["low", "medium", "high"],
-            "example": "high"
-          },
-          "date": {
-            "type": "string",
-            "format": "date",
-            "description": "Task's scheduled date"
-          },
-          "category": {
-            "type": "string",
-            "description": "Task's category",
-            "enum": ["to-do", "in-progress", "done"],
-            "example": "in-progress"
-          },
-          "owner": {
-            "type": "string",
-            "description": "Current user's id",
-            "example": "64d7358d009ad69107a3d3d5"
-          }
-        }
-      },
 
-      "securitySchemes": {
-        "Bearer": {
-          "type": "http",
-          "scheme": "bearer",
-          "bearerFormat": "JWT"
+      "GetAllReviewsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Review's id",
+              "example": "64d64bf8abc5b5e140b7f99d"
+            },
+            "raiting": {
+              "type": "string",
+              "description": "Review's raiting",
+              "enum": ["1", "2", "3", "4", "5"],
+              "example": "5"
+            },
+            "review": {
+              "type": "string",
+              "description": "Review's text",
+              "example": "Very good"
+            },
+            "owner": {
+              "type": "object",
+              "properties": {
+                "avatarURL": {
+                  "type": "string",
+                  "description": "URL of the user's avatar"
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Current user's id",
+                  "example": "64d4e08df17428e246087096"
+                }
+              }
+            }
+          }
         }
+      },
+      "PostOwnReviewRequest": {
+        "type": "object",
+        "properties": {
+          "raiting": {
+            "type": "string",
+            "description": "Review's raiting",
+            "enum": ["1", "2", "3", "4", "5"],
+            "example": "5"
+          },
+          "review": {
+            "type": "string",
+            "description": "Text of review",
+            "example": "Very good"
+          }
+        },
+        "required": ["raiting", "review"]
+      },
+      "OwnReviewRequest": {
+        "type": "object",
+        "properties": {
+          "raiting": {
+            "type": "string",
+            "description": "Review's raiting",
+            "enum": ["1", "2", "3", "4", "5"],
+            "example": "5"
+          },
+          "review": {
+            "type": "string",
+            "description": "Text of review",
+            "example": "Very good"
+          }
+        }
+      },
+      "OwnReviewResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Review's id",
+            "example": "64d64bf8abc5b5e140b7f99d"
+          },
+          "raiting": {
+            "type": "string",
+            "description": "Review's raiting",
+            "enum": ["1", "2", "3", "4", "5"],
+            "example": "5"
+          },
+          "review": {
+            "type": "string",
+            "description": "Text of review",
+            "example": "Very good"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Current user's id",
+            "example": "64d7358d009ad69107a3d3d5"
+          }
+        }
+      }
+    },
+
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
