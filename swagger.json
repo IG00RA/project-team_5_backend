@@ -190,6 +190,59 @@
           }
         }
       }
+    },
+    "/api/user/change-avatar": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Upload user avatar",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "avatarURL": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "User avatar file"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful avatar upload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "avatarURL": {
+                      "type": "string",
+                      "description": "Uploaded file URL"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {}
+          },
+          "500": {
+            "description": "Unexpected file format",
+            "content": {}
+          }
+        }
+      }
     }
   },
   "components": {
@@ -358,11 +411,6 @@
             "type": "string",
             "description": "User's Skype",
             "example": "Add a skype number (string)"
-          },
-          "avatarURL": {
-            "type": "string",
-            "description": "URL of the user's avatar",
-            "example": "string"
           }
         }
       },
@@ -393,11 +441,6 @@
             "type": "string",
             "description": "Updated user's Skype",
             "example": "Add a skype number (string)"
-          },
-          "avatarURL": {
-            "type": "string",
-            "description": "Updated URL of the user's avatar",
-            "example": "string"
           }
         }
       }
