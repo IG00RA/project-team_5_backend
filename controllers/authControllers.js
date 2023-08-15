@@ -58,7 +58,7 @@ const login = async (req, res) => {
     throw new HttpError(401, "Email or password invalid");
   }
 
-  const token = await generateAndSaveToken(newUser._id);
+  const token = await generateAndSaveToken(user._id);
 
   res.json({
     token: token,
