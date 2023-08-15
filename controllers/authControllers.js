@@ -9,7 +9,8 @@ const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const checkedEmail = email.toLowerCase();
+  const user = await User.findOne({ checkedEmail });
 
   if (user) {
     throw new HttpError(409, "Provided email already exists");
