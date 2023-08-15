@@ -350,7 +350,7 @@
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
             "type": "string",
             "required": true,
             "description": "Task's id"
