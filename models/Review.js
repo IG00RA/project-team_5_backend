@@ -19,7 +19,7 @@ const reviewsSchema = new Schema(
       ref: "user",
     },
   },
-  { versionKey: false, timestamps: true, collection: "reviews" }
+  { versionKey: false, timestamps: false, collection: "reviews" }
 );
 
 reviewsSchema.post("save", handleMongooseError);
