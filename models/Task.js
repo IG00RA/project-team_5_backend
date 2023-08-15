@@ -29,8 +29,8 @@ const tasksSchema = new Schema(
       default: "low",
     },
     date: {
-      type: Date,
-      default: Date.now,
+      type: String,
+      required: true,
     },
     category: {
       type: String,
@@ -53,7 +53,7 @@ const addSchema = Joi.object({
   start: Joi.string().regex(timeRegexp),
   end: Joi.string().regex(timeRegexp),
   priority: Joi.string().valid("low", "medium", "high"),
-  date: Joi.date().iso(),
+  date: Joi.string().isoDate().required(),
   category: Joi.string().required(),
 });
 

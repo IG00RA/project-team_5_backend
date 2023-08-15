@@ -3,7 +3,12 @@ const { Task } = require("../models/Task");
 
 const getAllTasks = ctrlWrapper(async (req, res, next) => {
   const { _id: owner } = req.user;
-  const tasks = await Task.find({ owner });
+  const { date } = req.query;
+  let query = { owner };
+  if (date) {
+    query = { ...query, date };
+  }
+  const tasks = await Task.find(query);
   res.status(200).json(tasks);
 });
 
@@ -26,7 +31,6 @@ const updateTask = ctrlWrapper(async (req, res, next) => {
 
 const removeTask = ctrlWrapper(async (req, res, next) => {
   const { id } = req.params;
-  console.log(id);
   const removedTask = await Task.findByIdAndRemove(id);
   if (!removedTask) {
     throw new HttpError(404, "Task not found");
