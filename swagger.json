@@ -314,6 +314,11 @@
               "avatarURL": {
                 "type": "string",
                 "description": "URL of the user's avatar"
+              },
+              "theme": {
+                "type": "string",
+                "description": "User's theme",
+                "example": "light"
               }
             }
           }
@@ -350,6 +355,11 @@
           "avatarURL": {
             "type": "string",
             "description": "URL of the user's avatar"
+          },
+          "theme": {
+            "type": "string",
+            "description": "User's theme",
+            "example": "light/dark"
           }
         }
       },
