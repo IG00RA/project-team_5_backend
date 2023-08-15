@@ -20,6 +20,7 @@ const register = async (req, res) => {
 
   const newUser = await User.create({
     ...req.body,
+    email: universalEmail,
     password: hashPassword,
   });
 
