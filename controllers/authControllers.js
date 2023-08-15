@@ -7,9 +7,21 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 
 const { SECRET_KEY } = process.env;
 
+const generateAndSaveToken = async (userId) => {
+  const payload = {
+    id: userId,
+  };
+
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+  await User.findByIdAndUpdate(userId, { token });
+
+  return token;
+};
+
 const register = async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const universalEmail = email.toLowerCase();
+  const user = await User.findOne({ email: universalEmail });
 
   if (user) {
     throw new HttpError(409, "Provided email already exists");
@@ -19,10 +31,14 @@ const register = async (req, res) => {
 
   const newUser = await User.create({
     ...req.body,
+    email: universalEmail,
     password: hashPassword,
   });
 
+  const token = await generateAndSaveToken(newUser._id);
+
   res.status(201).json({
+    token: token,
     user: {
       userName: newUser.userName,
       email: newUser.email,
@@ -42,12 +58,7 @@ const login = async (req, res) => {
     throw new HttpError(401, "Email or password invalid");
   }
 
-  const payload = {
-    id: user._id,
-  };
-
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
-  await User.findByIdAndUpdate(user._id, { token });
+  const token = await generateAndSaveToken(user._id);
 
   res.json({
     token: token,
