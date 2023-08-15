@@ -11,7 +11,7 @@
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "https://project-team-5-backend.onrender.com" }],
+  "servers": [{ "url": "https://project-team-5-backend.onrender.com/api" }],
   "tags": [
     {
       "name": "Auth",
@@ -32,7 +32,7 @@
   ],
 
   "paths": {
-    "/api/auth/register": {
+    "/auth/register": {
       "post": {
         "tags": ["Auth"],
         "summary": "User registration",
@@ -71,7 +71,7 @@
         }
       }
     },
-    "/api/auth/login": {
+    "/auth/login": {
       "post": {
         "tags": ["Auth"],
         "summary": "User authentication",
@@ -110,7 +110,7 @@
         }
       }
     },
-    "/api/auth/logout": {
+    "/auth/logout": {
       "post": {
         "tags": ["Auth"],
         "summary": "Logout",
@@ -128,7 +128,7 @@
         }
       }
     },
-    "/api/user/current": {
+    "/user/current": {
       "get": {
         "tags": ["User"],
         "summary": "Get user info",
@@ -152,7 +152,7 @@
         }
       }
     },
-    "/api/user/change-profile": {
+    "/user/change-profile": {
       "patch": {
         "tags": ["User"],
         "summary": "Change user info",
@@ -199,7 +199,7 @@
         }
       }
     },
-    "/api/user/toggle-theme": {
+    "/user/toggle-theme": {
       "patch": {
         "tags": ["User"],
         "summary": "Toggle user theme",
@@ -224,7 +224,7 @@
       }
     },
 
-    "/api/tasks": {
+    "/tasks": {
       "get": {
         "tags": ["Tasks"],
         "summary": "Get all tasks for current user",
@@ -293,7 +293,7 @@
         }
       }
     },
-    "/api/tasks/:id": {
+    "/tasks/{id}": {
       "patch": {
         "tags": ["Tasks"],
         "summary": "Edit task",
@@ -382,7 +382,7 @@
         }
       }
     },
-    "/api/reviews": {
+    "/reviews": {
       "get": {
         "tags": ["Reviews"],
         "summary": "Get all reviews",
@@ -405,7 +405,7 @@
         }
       }
     },
-    "/api/reviews/own": {
+    "/reviews/own": {
       "get": {
         "tags": ["Reviews"],
         "summary": "Get own review for current user",
