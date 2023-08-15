@@ -242,6 +242,11 @@
       "RegistrationResponse": {
         "type": "object",
         "properties": {
+          "token": {
+            "type": "string",
+            "description": "JWT authentication token",
+            "example": "eyJhbGciOkpXVCJ9.eyJpZCI6IjY0ZGI0OTNlYmQyM2E4ZThmNWU5MTgyZiIsImlhdCI6MTY5MMTc1NTM0fQ.WNZwYbE8w2Howi_HSClJAJ9KIkTVw"
+          },
           "user": {
             "type": "object",
             "properties": {
