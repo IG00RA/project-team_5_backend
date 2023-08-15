@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 const Joi = require("joi");
+const { validateTime } = require("../middlewares/validateTime");
 
 const timeRegexp = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
 
@@ -13,15 +14,13 @@ const tasksSchema = new Schema(
     },
     start: {
       type: String,
-      required: true,
-      match: timeRegexp,
       default: "09:00",
+      match: timeRegexp,
     },
     end: {
       type: String,
-      required: true,
-      match: timeRegexp,
       default: "09:30",
+      match: timeRegexp,
     },
     priority: {
       type: String,
@@ -46,7 +45,7 @@ const tasksSchema = new Schema(
   { versionKey: false, timestamps: false, collection: "tasks" }
 );
 
-tasksSchema.post("save", handleMongooseError);
+tasksSchema.plugin(validateTime).post("save", handleMongooseError);
 
 const addSchema = Joi.object({
   title: Joi.string().min(3).max(250).required(),
