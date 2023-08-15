@@ -43,7 +43,7 @@ const tasksSchema = new Schema(
       ref: "user",
     },
   },
-  { versionKey: false, timestamps: true, collection: "tasks" }
+  { versionKey: false, timestamps: false, collection: "tasks" }
 );
 
 tasksSchema.post("save", handleMongooseError);
