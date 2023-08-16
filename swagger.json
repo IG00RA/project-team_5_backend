@@ -877,14 +877,19 @@
             "owner": {
               "type": "object",
               "properties": {
-                "avatarURL": {
-                  "type": "string",
-                  "description": "URL of the user's avatar"
-                },
                 "_id": {
                   "type": "string",
                   "description": "Current user's id",
                   "example": "64d4e08df17428e246087096"
+                },
+                "userName": {
+                  "type": "string",
+                  "description": "User's name",
+                  "example": "Ivan"
+                },
+                "avatarURL": {
+                  "type": "string",
+                  "description": "URL of the user's avatar"
                 }
               }
             }
