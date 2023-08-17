@@ -21,6 +21,12 @@ const tasksSchema = new Schema(
       type: String,
       default: "09:30",
       match: timeRegexp,
+      validate: {
+        validator: function (value) {
+          return value >= this.start;
+        },
+        message: "it cannot be earlier than start",
+      },
     },
     priority: {
       type: String,
@@ -44,7 +50,7 @@ const tasksSchema = new Schema(
   },
   { versionKey: false, timestamps: false, collection: "tasks" }
 );
-
+tasksSchema.post("save", handleMongooseError);
 tasksSchema.plugin(validateTime).post("save", handleMongooseError);
 
 const addSchema = Joi.object({
