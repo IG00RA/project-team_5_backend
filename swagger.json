@@ -443,7 +443,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PostçOwnReviewRequest"
+                "$ref": "#/components/schemas/PostOwnReviewRequest"
               }
             }
           }
