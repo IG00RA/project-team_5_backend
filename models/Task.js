@@ -2,8 +2,7 @@ const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 const Joi = require("joi");
 const { validateTime } = require("../middlewares/validateTime");
-
-const timeRegexp = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+const { timeRegexp } = require("../constants/regexPatterns");
 
 const tasksSchema = new Schema(
   {
