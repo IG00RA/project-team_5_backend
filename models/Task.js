@@ -58,7 +58,7 @@ const addSchema = Joi.object({
   end: Joi.string().regex(timeRegexp),
   priority: Joi.string().valid("low", "medium", "high"),
   date: Joi.string().isoDate().required(),
-  category: Joi.string().required(),
+  category: Joi.string().valid("to-do", "in-progress", "done").required(),
 });
 
 const Task = model("task", tasksSchema);
