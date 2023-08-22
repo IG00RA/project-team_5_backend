@@ -19,14 +19,14 @@ const reviewsSchema = new Schema(
       ref: "user",
     },
   },
-  { versionKey: false, timestamps: true, collection: "reviews" }
+  { versionKey: false, timestamps: false, collection: "reviews" }
 );
 
 reviewsSchema.post("save", handleMongooseError);
 
 const addReviewSchema = Joi.object({
   raiting: Joi.string().valid("1", "2", "3", "4", "5"),
-  review: Joi.string().min(5).max(250),
+  review: Joi.string().min(5).max(300),
 });
 
 const Review = model("review", reviewsSchema);

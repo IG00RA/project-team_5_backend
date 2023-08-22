@@ -15,13 +15,7 @@ router.get("/", authenticate, getAllTasks);
 
 router.post("/", authenticate, validateBody(addSchema), createTask);
 
-router.patch(
-  "/:id",
-  authenticate,
-  isValidId,
-  validateBody(addSchema),
-  updateTask
-);
+router.patch("/:id", authenticate, isValidId, updateTask);
 
 router.delete("/:id", authenticate, isValidId, removeTask);
 
