@@ -64,5 +64,3 @@ const addSchema = Joi.object({
 const Task = model("task", tasksSchema);
 
 module.exports = { Task, addSchema };
-
-// add validate schema
