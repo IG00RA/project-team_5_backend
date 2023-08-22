@@ -2,9 +2,8 @@ const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 const Joi = require("joi");
 const { validateTime } = require("../middlewares/validateTime");
+const { timeRegexp } = require("../constants/regexPatterns");
 
-const timeRegexp = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
-//
 const tasksSchema = new Schema(
   {
     title: {
@@ -59,7 +58,7 @@ const addSchema = Joi.object({
   end: Joi.string().regex(timeRegexp),
   priority: Joi.string().valid("low", "medium", "high"),
   date: Joi.string().isoDate().required(),
-  category: Joi.string().required(),
+  category: Joi.string().valid("to-do", "in-progress", "done").required(),
 });
 
 const Task = model("task", tasksSchema);

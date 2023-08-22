@@ -1,8 +1,5 @@
 const Joi = require("joi");
-
-const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-const birthdayRegexp =
-  /^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+const { emailRegexp, birthdayRegexp } = require("../constants/regexPatterns");
 
 const registerSchema = Joi.object({
   userName: Joi.string().required(),

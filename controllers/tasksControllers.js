@@ -6,7 +6,7 @@ const getAllTasks = ctrlWrapper(async (req, res, next) => {
   const { date } = req.query;
   let query = { owner };
   if (date) {
-    query = { ...query, date };
+    query.date = date;
   }
   const tasks = await Task.find(query);
   res.status(200).json(tasks);

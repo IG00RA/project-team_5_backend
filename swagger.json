@@ -235,7 +235,7 @@
             "in": "query",
             "type": "string",
             "required": false,
-            "description": "Date parameter for filtering tasks"
+            "description": "Date parameter for filtering tasks. Expected format: YYYY-MM-DD"
           }
         ],
         "responses": {
