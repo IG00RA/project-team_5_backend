@@ -1,10 +1,9 @@
-const { regex } = require("../constants");
-
 const Joi = require("joi");
+const { emailRegexp, birthdayRegexp } = require("../constants/regexPatterns");
 
 const registerSchema = Joi.object({
   userName: Joi.string().required(),
-  email: Joi.string().pattern(regex.emailRegexp).required(),
+  email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string()
     .min(6)
     .required()
@@ -12,17 +11,18 @@ const registerSchema = Joi.object({
     .messages({ "string.min": "The password must be at least 6 symbols." }),
 });
 
+
 const loginSchema = Joi.object({
-  email: Joi.string().pattern(regex.emailRegexp).required(),
+  email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string().min(6).required(),
 });
 
 const updateSchema = Joi.object({
   userName: Joi.string().required(),
-  email: Joi.string().pattern(regex.emailRegexp).required(),
+  email: Joi.string().pattern(emailRegexp).required(),
   phone: Joi.string().allow(""),
   skype: Joi.string().allow(""),
-  birthday: Joi.string().pattern(regex.birthdayRegexp).allow(""),
+  birthday: Joi.string().pattern(birthdayRegexp).allow(""),
   avatarURL: Joi.any(),
 });
 
