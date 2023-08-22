@@ -3,8 +3,7 @@ const { model } = require("mongoose");
 const { Schema } = require("mongoose");
 
 const { handleMongooseError } = require("../helpers");
-
-const { regex } = require("../constants");
+const { emailRegexp, birthdayRegexp } = require("../constants/regexPatterns");
 
 const userSchema = new Schema(
   {
@@ -18,7 +17,7 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      match: regex.emailRegexp,
+      match: emailRegexp,
       required: [true, "Email is required"],
       unique: true,
     },
@@ -38,7 +37,7 @@ const userSchema = new Schema(
     },
     birthday: {
       type: String,
-      match: regex.birthdayRegexp,
+      match: birthdayRegexp,
       default: "",
     },
     avatarURL: {
