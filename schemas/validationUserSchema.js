@@ -5,7 +5,11 @@ const Joi = require("joi");
 const registerSchema = Joi.object({
   userName: Joi.string().required(),
   email: Joi.string().pattern(regex.emailRegexp).required(),
-  password: Joi.string().min(6).required(),
+  password: Joi.string()
+    .min(6)
+    .required()
+    .empty(false)
+    .messages({ "string.min": "The password must be at least 6 symbols." }),
 });
 
 const loginSchema = Joi.object({
