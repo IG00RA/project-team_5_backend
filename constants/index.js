@@ -1,3 +1,4 @@
 const httpMessage = require("./httpMessages");
+const regex = require("./regex");
 
-module.exports = httpMessage;
+module.exports = { httpMessage, regex };
