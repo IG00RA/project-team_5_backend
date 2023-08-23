@@ -1,7 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-const  {httpMessage}  = require("./constants");
+const { httpMessage } = require("./constants");
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
@@ -14,6 +14,10 @@ const { reviewsRouter } = require("./routes/api/reviews");
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+
+app.get("/connection-to-uptimerobot", (req, res) => {
+  res.json("Successfully connected to UptimeRobot");
+});
 
 app.use(logger(formatsLogger));
 app.use(cors());
