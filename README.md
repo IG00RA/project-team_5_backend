@@ -1,3 +1,5 @@
+#### <div align=right>[ENG](README.eng.md)</div>
+
 # <div align=center>Ласкаво просимо в "GooseTrack" Backend </div>
 
 ## Вміст
