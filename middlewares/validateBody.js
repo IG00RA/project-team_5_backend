@@ -25,7 +25,8 @@ const validateBody = (schema) => {
   return (req, res, next) => {
     const { error } = schema.validate(req.body);
     if (error) {
-      next(new HttpError(400, "Invalid request body"));
+      const errorMessage = error.details[0].message;
+      next(new HttpError(400, errorMessage));
     }
     next();
   };

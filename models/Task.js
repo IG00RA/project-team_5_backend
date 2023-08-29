@@ -53,7 +53,12 @@ tasksSchema.post("save", handleMongooseError);
 tasksSchema.plugin(validateTime).post("save", handleMongooseError);
 
 const addSchema = Joi.object({
-  title: Joi.string().min(3).max(250).required(),
+  title: Joi.string().min(3).max(250).required().messages({
+    "string.empty": "Title is required",
+    "string.min": "Title must be at least 3 characters",
+    "string.max": "Title must not exceed 250 characters",
+    "any.required": "Title is required",
+  }),
   start: Joi.string().regex(timeRegexp),
   end: Joi.string().regex(timeRegexp),
   priority: Joi.string().valid("low", "medium", "high"),
