@@ -85,6 +85,31 @@ const addSchema = Joi.object({
     }),
 });
 
+const updateSchema = Joi.object({
+  title: Joi.string().min(3).max(250).messages({
+    "string.min": "Title must be at least 3 characters",
+    "string.max": "Title must not exceed 250 characters",
+  }),
+  start: Joi.string().regex(timeRegexp).messages({
+    "string.pattern.base":
+      "Start time must be in HH:mm format (example, 08:30)",
+  }),
+  end: Joi.string().regex(timeRegexp).messages({
+    "string.pattern.base":
+      "Start time must be in HH:mm format (example, 09:30)",
+  }),
+  priority: Joi.string().valid("low", "medium", "high").messages({
+    "any.only": "Priority must be one of 'low', 'medium', or 'high'",
+  }),
+  date: Joi.string().isoDate().messages({
+    "string.isoDate":
+      "Date must be in format 'YYYY-MM-DD' (example, 2023-07-12)",
+  }),
+  category: Joi.string().valid("to-do", "in-progress", "done").messages({
+    "any.only": "Category must be one of 'to-do', 'in-progress', or 'done'",
+  }),
+});
+
 const Task = model("task", tasksSchema);
 
-module.exports = { Task, addSchema };
+module.exports = { Task, addSchema, updateSchema };
