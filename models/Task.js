@@ -59,11 +59,30 @@ const addSchema = Joi.object({
     "string.max": "Title must not exceed 250 characters",
     "any.required": "Title is required",
   }),
-  start: Joi.string().regex(timeRegexp),
-  end: Joi.string().regex(timeRegexp),
-  priority: Joi.string().valid("low", "medium", "high"),
-  date: Joi.string().isoDate().required(),
-  category: Joi.string().valid("to-do", "in-progress", "done").required(),
+  start: Joi.string().regex(timeRegexp).messages({
+    "string.pattern.base":
+      "Start time must be in HH:mm format (example, 08:30)",
+  }),
+  end: Joi.string().regex(timeRegexp).messages({
+    "string.pattern.base":
+      "Start time must be in HH:mm format (example, 08:30)",
+  }),
+  priority: Joi.string().valid("low", "medium", "high").messages({
+    "any.only": "Priority must be one of 'low', 'medium', or 'high'",
+  }),
+  date: Joi.string().isoDate().required().messages({
+    "string.empty": "Date is required",
+    "string.isoDate":
+      "Date must be in format 'YYYY-MM-DD' (example, 2023-07-12)",
+    "any.required": "Date is required",
+  }),
+  category: Joi.string()
+    .valid("to-do", "in-progress", "done")
+    .required()
+    .messages({
+      "any.only": "Category must be one of 'to-do', 'in-progress', or 'done'",
+      "any.required": "Category is required",
+    }),
 });
 
 const Task = model("task", tasksSchema);
