@@ -25,8 +25,15 @@ const reviewsSchema = new Schema(
 reviewsSchema.post("save", handleMongooseError);
 
 const addReviewSchema = Joi.object({
-  raiting: Joi.string().valid("1", "2", "3", "4", "5"),
-  review: Joi.string().min(5).max(300),
+  raiting: Joi.string().required().valid("1", "2", "3", "4", "5").messages({
+    "any.only": "Rating must be one of '1', '2', '3', '4', or '5'",
+    "any.required": "Rating is required",
+  }),
+  review: Joi.string().min(5).max(300).required().messages({
+    "string.min": "Review must be at least 5 characters",
+    "string.max": "Review must not exceed 300 characters",
+    "any.required": "Review is required",
+  }),
 });
 
 const Review = model("review", reviewsSchema);
