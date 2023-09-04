@@ -75,7 +75,7 @@ const addSchema = Joi.object({
     })
     .custom((value, helpers) => {
       const startMoment = moment(helpers.state.start);
-      const endMoment = moment(value.end);
+      const endMoment = moment(value);
       if (!endMoment.isAfter(startMoment)) {
         return helpers.message("End time must be later than start time");
       }
