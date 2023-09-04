@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const { handleMongooseError, HttpError } = require("../helpers");
+const { handleMongooseError } = require("../helpers");
 const Joi = require("joi");
 const { timeRegexp } = require("../constants/regexPatterns");
 const moment = require("moment");
@@ -25,7 +25,7 @@ const tasksSchema = new Schema(
         validator: function (value) {
           return value >= this.start;
         },
-        message: "it cannot be earlier than start",
+        message: "End time must be later than start time",
       },
     },
     priority: {
@@ -75,7 +75,7 @@ const addSchema = Joi.object({
     })
     .custom((value, helpers) => {
       const startMoment = moment(helpers.state.start);
-      const endMoment = moment(value);
+      const endMoment = moment(value.end);
       if (!endMoment.isAfter(startMoment)) {
         return helpers.message("End time must be later than start time");
       }
