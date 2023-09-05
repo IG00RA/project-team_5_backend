@@ -3,7 +3,6 @@ const { handleMongooseError } = require("../helpers");
 const Joi = require("joi");
 const { timeRegexp } = require("../constants/regexPatterns");
 const moment = require("moment");
-const { validateTime } = require("../middlewares/validateTime");
 
 const tasksSchema = new Schema(
   {
@@ -52,7 +51,6 @@ const tasksSchema = new Schema(
   { versionKey: false, timestamps: false, collection: "tasks" }
 );
 tasksSchema.post("save", handleMongooseError);
-tasksSchema.plugin(validateTime).post("save", handleMongooseError);
 
 const addSchema = Joi.object({
   title: Joi.string().min(3).max(250).required().messages({
