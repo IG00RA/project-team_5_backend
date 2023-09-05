@@ -65,22 +65,18 @@ const addSchema = Joi.object({
     "any.required": "Start time is required",
   }),
 
-  end: Joi.string()
-    .required()
-    .regex(timeRegexp)
-    .messages({
-      "string.pattern.base":
-        "End time must be in HH:mm format (example, 17:00)",
-      "any.required": "End time is required",
-    })
-    .custom((value, helpers) => {
-      const startMoment = moment(helpers.state.start);
-      const endMoment = moment(value.end);
-      if (!endMoment.isAfter(startMoment)) {
-        return helpers.message("End time must be later than start time");
-      }
-      return value;
-    }),
+  end: Joi.string().required().regex(timeRegexp).messages({
+    "string.pattern.base": "End time must be in HH:mm format (example, 17:00)",
+    "any.required": "End time is required",
+  }),
+  // .custom((value, helpers) => {
+  //   const startMoment = moment(helpers.state.start);
+  //   const endMoment = moment(value.end);
+  //   if (!endMoment.isAfter(startMoment)) {
+  //     return helpers.message("End time must be later than start time");
+  //   }
+  //   return value;
+  // }),
 
   priority: Joi.string().valid("low", "medium", "high").messages({
     "any.only": "Priority must be one of 'low', 'medium', or 'high'",
@@ -112,20 +108,17 @@ const updateSchema = Joi.object({
       "Start time must be in HH:mm format (example, 08:30)",
   }),
 
-  end: Joi.string()
-    .regex(timeRegexp)
-    .messages({
-      "string.pattern.base":
-        "End time must be in HH:mm format (example, 17:00)",
-    })
-    .custom((value, helpers) => {
-      const startMoment = moment(helpers.state.start);
-      const endMoment = moment(value.end);
-      if (!endMoment.isAfter(startMoment)) {
-        return helpers.message("End time must be later than start time");
-      }
-      return value;
-    }),
+  end: Joi.string().regex(timeRegexp).messages({
+    "string.pattern.base": "End time must be in HH:mm format (example, 17:00)",
+  }),
+  // .custom((value, helpers) => {
+  //   const startMoment = moment(helpers.state.start);
+  //   const endMoment = moment(value.end);
+  //   if (!endMoment.isAfter(startMoment)) {
+  //     return helpers.message("End time must be later than start time");
+  //   }
+  //   return value;
+  // }),
 
   priority: Joi.string().valid("low", "medium", "high").messages({
     "any.only": "Priority must be one of 'low', 'medium', or 'high'",
