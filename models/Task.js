@@ -3,6 +3,7 @@ const { handleMongooseError } = require("../helpers");
 const Joi = require("joi");
 const { timeRegexp } = require("../constants/regexPatterns");
 const moment = require("moment");
+const { validateTime } = require("../middlewares/validateTime");
 
 const tasksSchema = new Schema(
   {
@@ -21,12 +22,12 @@ const tasksSchema = new Schema(
       type: String,
       required: true,
       match: timeRegexp,
-      validate: {
-        validator: function (value) {
-          return value >= this.start;
-        },
-        message: "End time must be later than start time",
-      },
+      // validate: {
+      //   validator: function (value) {
+      //     return value >= this.start;
+      //   },
+      //   message: "End time must be later than start time",
+      // },
     },
     priority: {
       type: String,
@@ -51,6 +52,7 @@ const tasksSchema = new Schema(
   { versionKey: false, timestamps: false, collection: "tasks" }
 );
 tasksSchema.post("save", handleMongooseError);
+tasksSchema.plugin(validateTime).post("save", handleMongooseError);
 
 const addSchema = Joi.object({
   title: Joi.string().min(3).max(250).required().messages({
