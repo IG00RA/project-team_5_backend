@@ -81,14 +81,8 @@ const logout = async (req, res) => {
   res.status(204).json();
 };
 const googleAuth = async (req, res) => {
-  const { _id: id } = req.user;
-  const payload = {
-    id,
-  };
-
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
-  await User.findByIdAndUpdate(id, { token });
-
+  const { _id } = req.user;
+  const token = await generateAndSaveToken(_id);
   res.redirect(`${FRONTEND_URL}?token=${token}`);
 };
 
