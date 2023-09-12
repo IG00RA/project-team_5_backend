@@ -12,6 +12,11 @@ router.get(
   "/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
 );
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { session: false }),
+  ctrl.googleAuth
+);
 
 router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 

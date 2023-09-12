@@ -5,7 +5,7 @@ const User = require("../models/User");
 
 const { HttpError, ctrlWrapper } = require("../helpers");
 
-const { SECRET_KEY } = process.env;
+const { SECRET_KEY, FRONTEND_URL } = process.env;
 
 const generateAndSaveToken = async (userId) => {
   const payload = {
@@ -80,9 +80,21 @@ const logout = async (req, res) => {
 
   res.status(204).json();
 };
+const googleAuth = async (req, res) => {
+  const { _id: id } = req.user;
+  const payload = {
+    id,
+  };
+
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+  await User.findByIdAndUpdate(id, { token });
+
+  res.redirect(`${FRONTEND_URL}?token=${token}`);
+};
 
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   logout: ctrlWrapper(logout),
+  googleAuth: ctrlWrapper(googleAuth),
 };
