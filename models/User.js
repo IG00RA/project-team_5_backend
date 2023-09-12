@@ -56,4 +56,4 @@ userSchema.post("save", handleMongooseError);
 
 const User = model("user", userSchema);
 
-module.exports = User;
+module.exports = { User };
