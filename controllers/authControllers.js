@@ -81,7 +81,7 @@ const logout = async (req, res) => {
 const googleAuth = async (req, res) => {
   const { _id } = req.user;
   const token = await generateAndSaveToken(_id);
-  res.redirect(`${FRONTEND_URL}/account/?token=${token}`);
+  res.redirect(`${FRONTEND_URL}/login/?token=${token}`);
 };
 
 module.exports = {
