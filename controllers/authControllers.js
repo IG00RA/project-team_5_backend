@@ -1,9 +1,7 @@
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-const User = require("../models/User");
-
 const { HttpError, ctrlWrapper } = require("../helpers");
+const User = require("../models/User");
 
 const { SECRET_KEY, FRONTEND_URL } = process.env;
 

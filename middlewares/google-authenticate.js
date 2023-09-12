@@ -1,5 +1,5 @@
 const { Strategy } = require("passport-google-oauth2");
-const { User } = require("../models/User");
+const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const { nanoid } = require("nanoid");
 const passport = require("passport");
