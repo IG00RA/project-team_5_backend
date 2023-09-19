@@ -1,9 +1,7 @@
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-const User = require("../models/User");
-
 const { HttpError, ctrlWrapper } = require("../helpers");
+const User = require("../models/User");
 
 const { SECRET_KEY, FRONTEND_URL } = process.env;
 
@@ -83,7 +81,7 @@ const logout = async (req, res) => {
 const googleAuth = async (req, res) => {
   const { _id } = req.user;
   const token = await generateAndSaveToken(_id);
-  res.redirect(`${FRONTEND_URL}?token=${token}`);
+  res.redirect(`${FRONTEND_URL}/login/?token=${token}`);
 };
 
 module.exports = {
