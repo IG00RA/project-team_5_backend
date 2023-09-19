@@ -1,3 +1,4 @@
 const httpMessage = require("./httpMessages");
 
-module.exports = httpMessage;
+
+module.exports = { httpMessage};

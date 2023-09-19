@@ -1,8 +1,8 @@
 const { Strategy } = require("passport-google-oauth2");
-const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const { nanoid } = require("nanoid");
 const passport = require("passport");
+const User = require("../models/User");
 
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BASE_URL } = process.env;
 
