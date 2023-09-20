@@ -101,13 +101,15 @@ const updateSchema = Joi.object({
     "string.max": "Title must not exceed 250 characters",
   }),
 
-  start: Joi.string().regex(timeRegexp).messages({
+  start: Joi.string().regex(timeRegexp).required().messages({
     "string.pattern.base":
       "Start time must be in HH:mm format (example, 08:30)",
+    "any.required": "Start time is required",
   }),
 
-  end: Joi.string().regex(timeRegexp).messages({
+  end: Joi.string().required().regex(timeRegexp).messages({
     "string.pattern.base": "End time must be in HH:mm format (example, 17:00)",
+    "any.required": "End time is required",
   }),
 
   priority: Joi.string().valid("low", "medium", "high").messages({
@@ -122,6 +124,12 @@ const updateSchema = Joi.object({
   category: Joi.string().valid("to-do", "in-progress", "done").messages({
     "any.only": "Category must be one of 'to-do', 'in-progress', or 'done'",
   }),
+}).custom((obj, helpers) => {
+  const startMoment = moment(obj.start, "HH:mm", true);
+  const endMoment = moment(obj.end, "HH:mm", true);
+  if (!endMoment.isAfter(startMoment)) {
+    return helpers.message("End time must be later than start time");
+  } else return obj;
 });
 
 const Task = model("task", tasksSchema);
