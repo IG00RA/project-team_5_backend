@@ -1,20 +1,11 @@
 const moment = require("moment");
-const { HttpError } = require("../helpers");
 
-const validateTime = (schema) => {
-  try {
-    schema.path("end").validate(function (value) {
-      const startMoment = moment(this.start, "HH:mm");
-      const endMoment = moment(value, "HH:mm");
-      const validate = endMoment.isAfter(startMoment);
-      if (!validate) {
-        throw new HttpError(409, "Cannot be earlier than start");
-      }
-      return validate;
-    });
-  } catch (error) {
-    console.log(error.message);
-  }
+const validateTime = (obj, helpers) => {
+  const startMoment = moment(obj.start, "HH:mm", true);
+  const endMoment = moment(obj.end, "HH:mm", true);
+  if (!endMoment.isAfter(startMoment)) {
+    return helpers.message("End time must be later than start time");
+  } else return obj;
 };
 
 module.exports = { validateTime };
