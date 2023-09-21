@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 const Joi = require("joi");
 const { timeRegexp } = require("../constants/regexPatterns");
-const moment = require("moment");
+const { validateTime } = require("../middlewares/validateTime");
 
 const tasksSchema = new Schema(
   {
@@ -25,7 +25,7 @@ const tasksSchema = new Schema(
         validator: function (value) {
           return value >= this.start;
         },
-        message: "End time must be later than start time",
+        message: "End time must be later than start time!!!",
       },
     },
     priority: {
@@ -87,13 +87,7 @@ const addSchema = Joi.object({
       "any.only": "Category must be one of 'to-do', 'in-progress', or 'done'",
       "any.required": "Category is required",
     }),
-}).custom((obj, helpers) => {
-  const startMoment = moment(obj.start, "HH:mm", true);
-  const endMoment = moment(obj.end, "HH:mm", true);
-  if (!endMoment.isAfter(startMoment)) {
-    return helpers.message("End time must be later than start time");
-  } else return obj;
-});
+}).custom(validateTime);
 
 const updateSchema = Joi.object({
   title: Joi.string().min(3).max(250).messages({
@@ -124,13 +118,7 @@ const updateSchema = Joi.object({
   category: Joi.string().valid("to-do", "in-progress", "done").messages({
     "any.only": "Category must be one of 'to-do', 'in-progress', or 'done'",
   }),
-}).custom((obj, helpers) => {
-  const startMoment = moment(obj.start, "HH:mm", true);
-  const endMoment = moment(obj.end, "HH:mm", true);
-  if (!endMoment.isAfter(startMoment)) {
-    return helpers.message("End time must be later than start time");
-  } else return obj;
-});
+}).custom(validateTime);
 
 const Task = model("task", tasksSchema);
 
