@@ -878,9 +878,9 @@
               "description": "Review's id",
               "example": "64d64bf8abc5b5e140b7f99d"
             },
-            "raiting": {
+            "rating": {
               "type": "string",
-              "description": "Review's raiting",
+              "description": "Review's rating",
               "enum": ["1", "2", "3", "4", "5"],
               "example": "5"
             },
@@ -914,9 +914,9 @@
       "PostOwnReviewRequest": {
         "type": "object",
         "properties": {
-          "raiting": {
+          "rating": {
             "type": "string",
-            "description": "Review's raiting",
+            "description": "Review's rating",
             "enum": ["1", "2", "3", "4", "5"],
             "example": "5"
           },
@@ -926,14 +926,14 @@
             "example": "Very good"
           }
         },
-        "required": ["raiting", "review"]
+        "required": ["rating", "review"]
       },
       "OwnReviewRequest": {
         "type": "object",
         "properties": {
-          "raiting": {
+          "rating": {
             "type": "string",
-            "description": "Review's raiting",
+            "description": "Review's rating",
             "enum": ["1", "2", "3", "4", "5"],
             "example": "5"
           },
@@ -952,9 +952,9 @@
             "description": "Review's id",
             "example": "64d64bf8abc5b5e140b7f99d"
           },
-          "raiting": {
+          "rating": {
             "type": "string",
-            "description": "Review's raiting",
+            "description": "Review's rating",
             "enum": ["1", "2", "3", "4", "5"],
             "example": "5"
           },

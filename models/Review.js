@@ -4,7 +4,7 @@ const Joi = require("joi");
 
 const reviewsSchema = new Schema(
   {
-    raiting: {
+    rating: {
       type: String,
       enum: ["1", "2", "3", "4", "5"],
       required: true,
@@ -25,7 +25,7 @@ const reviewsSchema = new Schema(
 reviewsSchema.post("save", handleMongooseError);
 
 const addReviewSchema = Joi.object({
-  raiting: Joi.string().required().valid("1", "2", "3", "4", "5").messages({
+  rating: Joi.string().required().valid("1", "2", "3", "4", "5").messages({
     "any.only": "Rating must be one of '1', '2', '3', '4', or '5'",
     "any.required": "Rating is required",
   }),
