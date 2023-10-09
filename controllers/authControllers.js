@@ -79,17 +79,9 @@ const logout = async (req, res) => {
   res.status(204).json();
 };
 const googleAuth = async (req, res) => {
-  const referer = req.headers.referer || "";
-  console.log(referer);
   const { _id } = req.user;
   const token = await generateAndSaveToken(_id);
-  if (referer.includes(FRONTEND_URL)) {
-    res.redirect(`${FRONTEND_URL}/login/?token=${token}`);
-  } else if (referer.includes(FRONTEND_URL_VERCEL)) {
-    res.redirect(`${FRONTEND_URL_VERCEL}/login/?token=${token}`);
-  } else {
-    res.redirect(`${FRONTEND_URL}/login/?token=${token}`);
-  }
+  res.redirect(`${FRONTEND_URL_VERCEL}/login/?token=${token}`);
 };
 
 module.exports = {
