@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { HttpError, ctrlWrapper } = require("../helpers");
 const User = require("../models/User");
 
-const { SECRET_KEY, FRONTEND_URL } = process.env;
+const { SECRET_KEY, FRONTEND_URL, FRONTEND_URL_VERCEL } = process.env;
 
 const generateAndSaveToken = async (userId) => {
   const payload = {
@@ -79,9 +79,17 @@ const logout = async (req, res) => {
   res.status(204).json();
 };
 const googleAuth = async (req, res) => {
+  const referer = req.headers.referer || "";
+  console.log(referer);
   const { _id } = req.user;
   const token = await generateAndSaveToken(_id);
-  res.redirect(`${FRONTEND_URL}/login/?token=${token}`);
+  if (referer.includes(FRONTEND_URL)) {
+    res.redirect(`${FRONTEND_URL}/login/?token=${token}`);
+  } else if (referer.includes(FRONTEND_URL_VERCEL)) {
+    res.redirect(`${FRONTEND_URL_VERCEL}/login/?token=${token}`);
+  } else {
+    res.redirect(`${FRONTEND_URL}/login/?token=${token}`);
+  }
 };
 
 module.exports = {
